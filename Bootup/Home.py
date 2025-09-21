@@ -1,5 +1,6 @@
 import pygame
 import Login
+import taskbar
 
 pygame.init()
 
@@ -16,9 +17,9 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
         if event.type == pygame.MOUSEBUTTONDOWN:
                 # Exits fullscreen mode and closes the window
                 run = False
     win.fill((0, 0,255))
+    taskbar.show_taskbar(win)
     pygame.display.update()
