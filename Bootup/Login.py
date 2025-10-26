@@ -56,15 +56,14 @@ def show_login_screen(screen):
                 mouse = pygame.mouse.get_pos()
                 if enter_button_x <= mouse[0] <= enter_button_x + enter_button_width and enter_button_y <= mouse[1] <= enter_button_y + enter_button_height:
                     print(f"Password entered: {input_text}")
+                    sound.play()
                     return input_text  # Return the password and exit
 
             if ev.type == pygame.KEYDOWN:
                 if input_active:
                     if ev.key == pygame.K_RETURN:
                         print(f"Password entered: {input_text}")
-                    
                         sound.play()
-                        sound.set_volume(0.5)  # Adjust volume (0.0 to 1.0)
                         return input_text  # Return the password and exit
                     elif ev.key == pygame.K_BACKSPACE:
                         input_text = input_text[:-1]
@@ -100,8 +99,4 @@ def show_login_screen(screen):
 
         # Update the display
         pygame.display.update()
-
-
-
-
 
