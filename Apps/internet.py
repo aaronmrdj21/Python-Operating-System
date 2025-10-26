@@ -27,8 +27,9 @@ if project_root not in sys.path:
 
 from Bootup import taskbar
 
+font = pygame.font.Font(None, 36) # initialises Text size and style
+text = font.render("A-SEARCH", True, (255, 255, 0))
 
-# Main loop
 running = True
 while running:
     for event in pygame.event.get():
@@ -37,15 +38,15 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
-    
+
     ie_window.fill((255, 255, 255))  # White background
-    
+    ie_window.blit(text, (220, 150))  # Position of the "Hello, Rhythm Game!" text
+
     taskbar.show_taskbar(ie_window, callbacks={'icon1': open_internet_explorer,
         'icon2': open_App2,
         'icon3': lambda: print("Icon3 clicked"),
         'icon4': lambda: print("Icon4 clicked"),
         'icon5': lambda: print("Icon5 clicked")})   
-    pygame.display.update()
     pygame.display.update()
 
 pygame.quit()

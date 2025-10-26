@@ -20,10 +20,8 @@ def open_internet_explorer():
     # Launch the internet explorer in a new window
     subprocess.Popen([sys.executable, ie_path])
 
-
 def open_App2():
     print("Opening App2...")
-
 
 Login.show_login_screen(win)
 
