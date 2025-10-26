@@ -1,6 +1,9 @@
 import pygame
 import Login
 import taskbar
+import subprocess
+import sys
+import os
 
 pygame.init()
 
@@ -12,12 +15,14 @@ run = True
 backgroundImage = pygame.image.load("background.jpg")
 
 def open_internet_explorer():
-    print("Opening internet explorer...")
+    # Get the path to the internet explorer script
+    ie_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Apps', 'internet.py')
+    # Launch the internet explorer in a new window
+    subprocess.Popen([sys.executable, ie_path])
 
 
 def open_App2():
     print("Opening App2...")
-
 
 
 Login.show_login_screen(win)
