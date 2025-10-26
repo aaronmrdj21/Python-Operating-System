@@ -11,6 +11,15 @@ pygame.display.set_caption("Aaron's Operating System Simulator")
 run = True
 backgroundImage = pygame.image.load("background.jpg")
 
+def open_internet_explorer():
+    print("Opening internet explorer...")
+
+
+def open_App2():
+    print("Opening App2...")
+
+
+
 Login.show_login_screen(win)
 
 while run:
@@ -21,6 +30,13 @@ while run:
                 run = False
     backgroundImage = pygame.transform.scale(backgroundImage, (win_width, win_height))
     win.blit(backgroundImage, (0, 0))
-    taskbar.show_taskbar(win)
-    
+
+
+    taskbar.show_taskbar(win, callbacks={
+        'icon1': open_internet_explorer,
+        'icon2': open_App2,
+        'icon3': lambda: print("Icon3 clicked"),
+        'icon4': lambda: print("Icon4 clicked"),
+        'icon5': lambda: print("Icon5 clicked")
+    })    
     pygame.display.update()
