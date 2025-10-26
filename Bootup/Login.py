@@ -21,6 +21,9 @@ def show_login_screen(screen):
     smallfont = pygame.font.SysFont('Corbel', 35)
     play_text = smallfont.render('Enter', True, color)
     
+    # Load bootup sound
+    sound = pygame.mixer.Sound('bootup_sound.wav')
+    
     # textbox
     input_text = ""
     input_active = False
@@ -55,12 +58,14 @@ def show_login_screen(screen):
                     print(f"Password entered: {input_text}")
                     return input_text  # Return the password and exit
 
-
             if ev.type == pygame.KEYDOWN:
                 if input_active:
                     if ev.key == pygame.K_RETURN:
                         print(f"Password entered: {input_text}")
-                        input_text = ""
+                    
+                        sound.play()
+                        sound.set_volume(0.5)  # Adjust volume (0.0 to 1.0)
+                        return input_text  # Return the password and exit
                     elif ev.key == pygame.K_BACKSPACE:
                         input_text = input_text[:-1]
                     else:
@@ -95,12 +100,6 @@ def show_login_screen(screen):
 
         # Update the display
         pygame.display.update()
-
-
-def enterUserPassword():
-    
-    
-    pass  
 
 
 
