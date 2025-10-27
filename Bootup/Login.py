@@ -1,6 +1,7 @@
 
 import pygame
 import sys
+import math
 
 def show_login_screen(screen):
     # Colors
@@ -24,10 +25,23 @@ def show_login_screen(screen):
     # Load bootup sound
     sound = pygame.mixer.Sound('bootup_sound.wav')
     
-    # textbox
+    # --- User icon layout (dynamic, centered under welcome text) ---
+    head_radius = 15
+    head_center_x = int(width / 2)
+    head_center_y = int(welcome_text_rect.bottom + 30)
+
+    # body (semicircle) rectangle
+    body_width = 50
+    body_height = 50
+    # move the body down by 20 pixels so the semicircle sits below the head
+    body_rect = pygame.Rect(head_center_x - body_width // 2,
+                            head_center_y + head_radius - (body_height // 2) + 20,
+                            body_width, body_height)
+
+    # textbox (moved below the icon)
     input_text = ""
     input_active = False
-    input_box = pygame.Rect(width/2 - 100, welcome_text_rect.bottom + 30, 200, 32)
+    input_box = pygame.Rect(int(head_center_x - 100), int(body_rect.bottom + 10), 200, 32)
     input_box_color = pygame.Color('lightskyblue3')
     txt_font = pygame.font.Font(None, 32)
     
@@ -35,7 +49,7 @@ def show_login_screen(screen):
     enter_button_width = 140
     enter_button_height = 40
     enter_button_x = width / 2 - enter_button_width / 2 
-    enter_button_y = welcome_text_rect.bottom + 60 + 60
+    enter_button_y = input_box.bottom + 20  # Position button below input box
 
     while True:
         for ev in pygame.event.get():
@@ -50,7 +64,6 @@ def show_login_screen(screen):
                 else:
                     input_active = False
                 input_box_color = pygame.Color('lightskyblue3') if input_active else pygame.Color('gray')
-                
 
                 # Check if Enter button is clicked
                 mouse = pygame.mouse.get_pos()
@@ -88,14 +101,21 @@ def show_login_screen(screen):
 
         # Draw text on button
         screen.blit(play_text, (enter_button_x + 30, enter_button_y + 5))
-        
+
+        # Draw user icon (centered under the welcome text)
+        # Draw head (circle)
+        pygame.draw.circle(screen, (255, 255, 255), (head_center_x, head_center_y), head_radius)
+
+        # Draw body (half circle)
+        pygame.draw.arc(screen, (255, 255, 255), body_rect, 0, math.pi, 2)
+
         # Draw welcome text at the top-center
         screen.blit(welcome_text, welcome_text_rect)
         
         # Draw input box
         pygame.draw.rect(screen, input_box_color, input_box, 2)
         txt_surface = txt_font.render(input_text, True, color)
-        screen.blit(txt_surface, (input_box.x + 5, input_box.y + 5))
+        screen.blit(txt_surface, (input_box.x + 5, input_box.y + 8))
 
         # Update the display
         pygame.display.update()
