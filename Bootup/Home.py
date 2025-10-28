@@ -34,6 +34,7 @@ while run:
     backgroundImage = pygame.transform.scale(backgroundImage, (win_width, win_height))
     win.blit(backgroundImage, (0, 0))
 
+    taskbar.show_topbar()
 
     taskbar.show_taskbar(win, callbacks={
         'icon1': open_internet_explorer,

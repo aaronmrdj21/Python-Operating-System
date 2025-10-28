@@ -3,6 +3,46 @@ import sys
 import datetime
 import math
 
+def show_topbar(screen=None, height=24, color=(50, 50, 50), icon_color=(200, 200, 200)):
+    """Draw a thin top bar at the top of the given surface.
+
+    - screen: pygame Surface (defaults to pygame.display.get_surface())
+    - height: bar height in pixels (default 24)
+    - color: background color of the top bar
+    - icon_color: color used for simple icons
+
+    This function is non-blocking and only draws the bar. Keep it lightweight so
+    callers can use it inside their main loop (Home.py already calls it).
+    """
+    if screen is None:
+        screen = pygame.display.get_surface()
+        if screen is None:
+            return  # nothing to draw
+
+    width = screen.get_width()
+    # Draw bar background
+    pygame.draw.rect(screen, color, (0, 0, width, height))
+
+    # Small left-side icons (visual only)
+    padding = 8
+    icon_size = height - padding * 2
+    icon_y = height // 2
+    x = padding + icon_size // 2
+    # draw three small circular icons (like window controls / quick actions)
+    pygame.draw.circle(screen, icon_color, (x, icon_y), icon_size // 2)
+    x += icon_size + padding
+    pygame.draw.circle(screen, (255, 100, 100), (x, icon_y), icon_size // 2)
+    x += icon_size + padding
+    pygame.draw.circle(screen, (100, 255, 100), (x, icon_y), icon_size // 2)
+
+    # Right side: show time or title
+    smallfont = pygame.font.SysFont('Corbel', max(12, height - 6))
+    # include seconds so the topbar shows realtime updates
+    now = datetime.datetime.now().strftime("%H:%M:%S")
+    time_surf = smallfont.render(now, True, (220, 220, 220))
+    screen.blit(time_surf, (width - time_surf.get_width() - padding, (height - time_surf.get_height()) // 2))
+
+
 def show_taskbar(screen, callbacks=None):
     # Colors
     taskbar_color = (50, 50, 50)
@@ -77,6 +117,11 @@ def show_taskbar(screen, callbacks=None):
                     else: print("Icon5 clicked")
                     continue
         #The Taskbar
+        # Draw topbar as well so its clock updates while this function runs its own loop
+        try:
+            show_topbar(screen)
+        except Exception:
+            pass
         pygame.draw.rect(screen, taskbar_color, [0, height - taskbar_height, width, taskbar_height])
         # The Icons
         Icon1 = pygame.draw.circle(screen, icon_color, (20, 480), icon_size // 2)
@@ -87,4 +132,3 @@ def show_taskbar(screen, callbacks=None):
         screen.blit(date, (380, 470))
         
         pygame.display.update()
-        
